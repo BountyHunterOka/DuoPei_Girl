@@ -1,3 +1,5 @@
+from fastapi.middleware.cors import CORSMiddleware
+
 from fastapi import FastAPI
 import threading
 import time
@@ -7,18 +9,19 @@ import requests
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
 from datetime import datetime
-from fastapi.middleware.cors import CORSMiddleware
 # import os
 # import platform
 
 app = FastAPI()
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/start")
 def start_book():
@@ -35,12 +38,12 @@ def stop_book():
 @app.get("/voice_start")
 def start_voice():
     start_talking()
-    return "开始连麦单"
+    return "过滤连麦单"
 
 @app.get("/voice_stop")
 def stop_voice():
     stop_talking()
-    return "结束连麦单"
+    return "不过滤连麦单"
 
 @app.get("/check_running")
 def check():
@@ -48,6 +51,13 @@ def check():
      return "运行中"
     else:
      return "已暂停"
+
+@app.get("/check_talking")
+def check():
+    if voice_talking:
+     return "过滤连麦中"
+    else:
+     return "未过滤连麦"
 
 # @app.get("/items/{item_id}")
 # def read_item(item_id: int, q: Union[str, None] = None):
@@ -74,7 +84,7 @@ HEADERS = {
     "accept": "*/*",
     "content-type": "application/x-www-form-urlencoded",
     "platform": "app",
-    "authorization-token": "991ae2a76bc94fc3a970b8d60e525c1d",
+    "authorization-token": "a041a647e5494d00a228166f90bceea2",
     "sid": "47",
     "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Html5Plus/1.0 (Immersed/20) uni-app",
     "accept-language": "en-GB,en;q=0.9",
@@ -88,7 +98,7 @@ session = requests.Session()
 session.headers.update(HEADERS)
 
 running = False
-voice_talking = False
+voice_talking = True
 
 # ========== 日志输出 ==========
 def log(text):
@@ -153,7 +163,6 @@ def confirm_order(order_id):
                 break
             log(f"[抢单结果] {confirm_rep}")
             if '未满足' in confirm_rep:
-                time.sleep(2.5)
                 log("等待中...继续尝试")
                 continue
             break
@@ -203,11 +212,10 @@ def stop_grabbing():
 def start_talking():
     global voice_talking
     voice_talking = True
-    log("[开始连麦单]")
+    log("[过滤连麦单.]")
 
 
 def stop_talking():
     global voice_talking
     voice_talking = False
-    log("[结束连麦单]")
-
+    log("[不过滤连麦单.]")
