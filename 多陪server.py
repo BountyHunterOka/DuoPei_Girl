@@ -160,8 +160,8 @@ def confirm_order(order_id):
     data = {"id": order_id}
     try:
         while running:
-            time.sleep(random.randint(9, 15))
-            resp = session.post(url, data=data, timeout=1.5)
+            time.sleep(random.randint(7, 8))
+            resp = session.post(url, data=data, timeout=3.5)
             da = resp.json()
             confirm_rep = decrypt_aes_cbc(da["response"], KEY_HEX, IV_HEX)
             if not confirm_rep:
@@ -191,7 +191,7 @@ def run_loop(interval):
                 log("[无新订单]")
         else:
             log("[解密失败或网络异常]")
-        time.sleep(random.randint(2, 5))
+        time.sleep(random.uniform(2, 3.5))
 
 # ========== 控制函数 ==========
 def start_grabbing():
