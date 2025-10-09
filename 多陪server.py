@@ -191,7 +191,7 @@ def confirm_order(order_id,create_ts):
     url = f"{BASE_URL}/s/c/order/confirm"
     data = {"id": order_id}
     try:
-        sleep_time(create_ts, 9.5)
+        sleep_time(create_ts, 15.5)
         while running:
             resp = session.post(url, data=data, timeout=3.5)
             da = resp.json()
@@ -201,7 +201,7 @@ def confirm_order(order_id,create_ts):
             log(f"[抢单结果] {confirm_rep}")
             if '未满足' in confirm_rep:
                 log("等待中...继续尝试")
-                time.sleep(3.5)
+                time.sleep(9.5)
                 continue
             break
     except Exception as e:
