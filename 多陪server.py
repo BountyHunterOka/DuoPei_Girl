@@ -178,7 +178,7 @@ def sleep_time(create_ts, wait_time):
     if sleep_seconds < 0:
         random_sleep = random.uniform(1, 2.5)
     else:
-        random_sleep = random.uniform(sleep_seconds, sleep_seconds+2.5)
+        random_sleep = random.uniform(sleep_seconds, sleep_seconds+2.25)
     print(sleep_seconds)
     time.sleep(random_sleep)
 # ========== 抢单 ==========
