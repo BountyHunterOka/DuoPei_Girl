@@ -199,10 +199,10 @@ def confirm_order(order_id,create_ts):
             if not confirm_rep:
                 break
             log(f"[抢单结果] {confirm_rep}")
-            if '未满足' in confirm_rep:
-                log("等待中...继续尝试")
-                time.sleep(9.5)
-                continue
+            # if '未满足' in confirm_rep:
+            #     log("等待中...继续尝试")
+            #     time.sleep(9.5)
+            #     continue
             break
     except Exception as e:
         log(f"[抢单失败] {e}")
