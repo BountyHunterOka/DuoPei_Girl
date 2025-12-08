@@ -147,9 +147,9 @@ def extract_order_id(decrypted_json_str):
                 log("[跳过订单] 包含用户定义的敏感词")
                 continue
             amount = order_list[0].get("totalAmount")
-            if amount <= 1500:
-                log('价格低于15，自动过滤')
-                continue
+            # if amount <= 1500:
+            #     log('价格低于15，自动过滤')
+            #     continue
             # if order.get("userMemo"):
             #     log("[跳过订单] 有备注")
             #     continue
